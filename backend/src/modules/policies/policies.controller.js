@@ -34,7 +34,7 @@ const createPolicy = async (req, res) => {
 
     res.status(201).json({ success: true, policy });
   } catch (error) {
-    res.status(550).json({ success: false, message: error.message });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
@@ -80,7 +80,7 @@ const deletePolicy = async (req, res) => {
 
 const submitPolicyForApproval = async (req, res) => {
   try {
-    const policy = await policiesService.submitForApproval(req.params.id);
+    const policy = await policiesService.submitForApproval(req.params.id, req.user);
 
     await logAction({
       action: "POLICY_SUBMIT_APPROVAL",

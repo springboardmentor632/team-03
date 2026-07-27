@@ -12,7 +12,7 @@ const getNotifications = async (req, res) => {
 const markAsRead = async (req, res) => {
   try {
     const { id } = req.params;
-    await notificationsService.markAsRead(id);
+    await notificationsService.markAsRead(id, req.user.id);
     res.status(200).json({ success: true, message: "Notification marked as read" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

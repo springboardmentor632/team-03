@@ -13,7 +13,7 @@ const { errorHandler } = require("./utils/errors");
 require("dotenv").config();
 
 // Require JWT_SECRET env variable
-if (!process.env.JWT_SECRET) {
+if (!process.env.JWT_SECRET || !process.env.JWT_REFRESH_SECRET) {
   logger.error("FATAL ERROR: JWT_SECRET environment variable is not defined.");
   process.exit(1);
 }
@@ -26,7 +26,7 @@ app.use(mongoSanitize());
 app.use(hpp());
 
 // CORS Whitelist origin matching
-const whitelist = ["http://localhost:5173", "http://localhost:5000", "http://127.0.0.1:5173"];
+const whitelist = (process.env.CLIENT_ORIGIN || "http://localhost:5173").split(",").map((origin) => origin.trim());
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -39,7 +39,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 app.use(morgan("dev"));
 
 // Rate limiter: Max 200 requests per 15 minutes per IP
@@ -85,9 +85,12 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Health check
-app.get("/api/health", (req, res) => {
-  res.status(200).json({ status: "OK", message: "Server is healthy" });
+// Liveness and readiness endpoints; do not expose secrets.
+app.get("/api/health", (req, res) => res.status(200).json({ status: "ok" }));
+app.get("/api/ready", (req, res) => {
+  const mongoose = require("mongoose");
+  if (mongoose.connection.readyState !== 1) return res.status(503).json({ status: "unavailable" });
+  res.status(200).json({ status: "ready" });
 });
 
 // Import modules routes

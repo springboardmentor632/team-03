@@ -14,7 +14,7 @@ const submitApplication = async (req, res) => {
 
 const getApplications = async (req, res) => {
   try {
-    const query = req.user.role === "citizen" ? { userId: req.user.id } : {};
+    const query = req.user.role === "admin" || req.user.role === "official" ? {} : { userId: req.user.id };
     const applications = await applicationsService.getApplications(query);
     res.status(200).json({ success: true, applications });
   } catch (error) {

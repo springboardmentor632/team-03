@@ -1,25 +1,22 @@
-version: '3.8'
-
 services:
   mongo:
-    image: mongo:latest
-    container_name: govintel_db
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-
+    image: mongo:8.0
+    restart: unless-stopped
+    volumes: [mongo_data:/data/db]
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   api:
     build: .
-    container_name: govintel_api
-    ports:
-      - "5000:5000"
+    restart: unless-stopped
+    ports: ["5000:5000"]
+    env_file: .env
     environment:
-      - PORT=5000
-      - MONGODB_URI=mongodb://mongo:27017/policy_platform
-      - JWT_SECRET=super_secret_jwt_key_123!
+      MONGODB_URI: mongodb://mongo:27017/policy_platform
     depends_on:
-      - mongo
-
+      mongo:
+        condition: service_healthy
 volumes:
   mongo_data:

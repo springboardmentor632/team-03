@@ -26,14 +26,14 @@ class SchemesService {
 
     if (search) {
       query.$or = [
-        { title: { $regex: search, $options: "i" } },
-        { description: { $regex: search, $options: "i" } },
-        { benefits: { $regex: search, $options: "i" } },
+        { title: { $regex: String(search).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" } },
+        { description: { $regex: String(search).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" } },
+        { benefits: { $regex: String(search).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" } },
       ];
     }
 
     const skip = page && limit ? (Number(page) - 1) * Number(limit) : 0;
-    const maxLimit = limit ? Number(limit) : 0;
+    const maxLimit = limit ? Math.min(Number(limit), 100) : 25;
 
     return await schemesRepository.find(query, skip, maxLimit);
   }
@@ -67,7 +67,7 @@ class SchemesService {
     }
 
     const creatorId = scheme.createdBy?._id || scheme.createdBy;
-    if (creatorId.toString() !== user.id && user.role !== "admin" && user.role !== "official") {
+    if (creatorId.toString() !== user.id && user.role !== "admin") {
       throw new Error("Unauthorized to edit this scheme");
     }
 
@@ -97,10 +97,11 @@ class SchemesService {
     return await schemesRepository.findByIdAndDelete(id);
   }
 
-  async submitForApproval(id) {
+  async submitForApproval(id, user) {
     const scheme = await schemesRepository.findById(id);
     if (!scheme) throw new Error("Scheme not found");
-
+    if (scheme.createdBy.toString() !== user.id && user.role !== "admin") throw new Error("Only the creator can submit this record");
+    if (scheme.status !== "draft") throw new Error("Only drafts can be submitted");
     scheme.status = "pending_approval";
     return await schemesRepository.save(scheme);
   }
@@ -108,7 +109,7 @@ class SchemesService {
   async approveScheme(id, approverId) {
     const scheme = await schemesRepository.findById(id);
     if (!scheme) throw new Error("Scheme not found");
-
+    if (scheme.status !== "pending_approval") throw new Error("Only submitted records can be approved");
     scheme.status = "approved";
     scheme.approvedBy = approverId;
     const saved = await schemesRepository.save(scheme);
@@ -127,7 +128,7 @@ class SchemesService {
   async rejectScheme(id) {
     const scheme = await schemesRepository.findById(id);
     if (!scheme) throw new Error("Scheme not found");
-
+    if (scheme.status !== "pending_approval") throw new Error("Only submitted records can be rejected");
     scheme.status = "draft";
     return await schemesRepository.save(scheme);
   }

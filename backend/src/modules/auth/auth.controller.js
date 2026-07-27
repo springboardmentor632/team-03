@@ -104,25 +104,11 @@ const updateProfile = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   try {
-    const { email } = req.body;
-    const { resetToken, user } = await authService.forgotPassword(email);
-
-    await logAction({
-      action: "USER_FORGOT_PASSWORD_REQUEST",
-      userId: user._id,
-      userRole: user.role,
-      details: `Requested password reset link`,
-      ipAddress: req.ip || "127.0.0.1",
-    });
-
-    res.status(200).json({
-      success: true,
-      message: "Password reset link generated successfully (Simulated Email Send)",
-      token: resetToken,
-    });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
+    const reset = await authService.createPasswordReset(req.body.email);
+    if (reset) await logAction({ action: "USER_FORGOT_PASSWORD_REQUEST", userId: reset.user._id, userRole: reset.user.role, details: "Requested password reset", ipAddress: req.ip });
+    // A mail adapter should deliver reset.rawToken; never return it to the browser.
+    res.status(202).json({ success: true, message: "If that account exists, reset instructions have been sent." });
+  } catch (_) { res.status(202).json({ success: true, message: "If that account exists, reset instructions have been sent." }); }
 };
 
 const resetPassword = async (req, res) => {

@@ -27,6 +27,10 @@ const userSchema = new Schema(
     savedSchemes: [{ type: Schema.Types.ObjectId, ref: "Schemes" }],
     searchHistory: [{ type: String }],
     refreshToken: { type: String, default: "" },
+    passwordResetTokenHash: { type: String, default: null },
+    passwordResetExpiresAt: { type: Date, default: null },
+    department: { type: String, default: "" },
+    isActive: { type: Boolean, default: true },
   },
   {
     timestamps: true,

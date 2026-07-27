@@ -49,7 +49,7 @@ const resolveFeedback = async (req, res) => {
 
     res.status(200).json({ success: true, message: "Feedback marked as resolved", feedback });
   } catch (error) {
-    res.status(550).json({ success: false, message: error.message });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 

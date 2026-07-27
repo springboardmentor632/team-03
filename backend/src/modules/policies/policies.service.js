@@ -26,13 +26,13 @@ class PoliciesService {
 
     if (search) {
       query.$or = [
-        { title: { $regex: search, $options: "i" } },
-        { description: { $regex: search, $options: "i" } },
+        { title: { $regex: String(search).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" } },
+        { description: { $regex: String(search).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" } },
       ];
     }
 
     const skip = page && limit ? (Number(page) - 1) * Number(limit) : 0;
-    const maxLimit = limit ? Number(limit) : 0;
+    const maxLimit = limit ? Math.min(Number(limit), 100) : 25;
 
     return await policiesRepository.find(query, skip, maxLimit);
   }
@@ -66,7 +66,7 @@ class PoliciesService {
     }
 
     const creatorId = policy.createdBy?._id || policy.createdBy;
-    if (creatorId.toString() !== user.id && user.role !== "admin" && user.role !== "official") {
+    if (creatorId.toString() !== user.id && user.role !== "admin") {
       throw new Error("Unauthorized to edit this policy");
     }
 
@@ -87,10 +87,11 @@ class PoliciesService {
     return await policiesRepository.findByIdAndDelete(id);
   }
 
-  async submitForApproval(id) {
+  async submitForApproval(id, user) {
     const policy = await policiesRepository.findById(id);
     if (!policy) throw new Error("Policy not found");
-
+    if (policy.createdBy.toString() !== user.id && user.role !== "admin") throw new Error("Only the creator can submit this record");
+    if (policy.status !== "draft") throw new Error("Only drafts can be submitted");
     policy.status = "pending_approval";
     return await policiesRepository.save(policy);
   }
@@ -98,7 +99,7 @@ class PoliciesService {
   async approvePolicy(id, approverId) {
     const policy = await policiesRepository.findById(id);
     if (!policy) throw new Error("Policy not found");
-
+    if (policy.status !== "pending_approval") throw new Error("Only submitted records can be approved");
     policy.status = "approved";
     policy.approvedBy = approverId;
     const saved = await policiesRepository.save(policy);
@@ -117,7 +118,7 @@ class PoliciesService {
   async rejectPolicy(id) {
     const policy = await policiesRepository.findById(id);
     if (!policy) throw new Error("Policy not found");
-
+    if (policy.status !== "pending_approval") throw new Error("Only submitted records can be rejected");
     policy.status = "draft";
     return await policiesRepository.save(policy);
   }

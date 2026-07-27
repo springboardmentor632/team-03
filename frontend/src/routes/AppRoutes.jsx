@@ -32,11 +32,15 @@ import GovSchemes from "../pages/government/Schemes";
 import GovApprovals from "../pages/government/Approvals";
 import GovReports from "../pages/government/Reports";
 import GovFeedback from "../pages/government/Feedback";
+import GovDepartments from "../pages/government/Departments";
+import GovUsers from "../pages/government/Users";
+import GovSettings from "../pages/government/Settings";
 
 // Admin Pages
 import AdminDashboard from "../pages/admin/Dashboard";
 import AdminUsers from "../pages/admin/Users";
 import AdminLogs from "../pages/admin/Logs";
+import CitizenSettings from "../pages/citizen/Settings";
 
 // Route Guard
 import ProtectedRoute from "./ProtectedRoute";
@@ -73,6 +77,7 @@ export default function AppRoutes() {
           <Route path="/saved" element={<SavedPolicies />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<CitizenSettings />} />
         </Route>
       </Route>
 
@@ -85,6 +90,9 @@ export default function AppRoutes() {
           <Route path="/government/approvals" element={<GovApprovals />} />
           <Route path="/government/reports" element={<GovReports />} />
           <Route path="/government/feedback" element={<GovFeedback />} />
+          <Route path="/government/departments" element={<GovDepartments />} />
+          <Route path="/government/users" element={<GovUsers />} />
+          <Route path="/government/settings" element={<GovSettings />} />
         </Route>
       </Route>
 

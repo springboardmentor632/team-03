@@ -80,7 +80,7 @@ const deleteScheme = async (req, res) => {
 
 const submitSchemeForApproval = async (req, res) => {
   try {
-    const scheme = await schemesService.submitForApproval(req.params.id);
+    const scheme = await schemesService.submitForApproval(req.params.id, req.user);
 
     await logAction({
       action: "SCHEME_SUBMIT_APPROVAL",

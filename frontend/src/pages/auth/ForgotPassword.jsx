@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import authService from "../../services/auth.service";
 import { toast, Toaster } from "react-hot-toast";
 import { Mail, ArrowLeft, Send } from "lucide-react";
@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,11 +17,6 @@ export default function ForgotPassword() {
     try {
       const data = await authService.forgotPassword(email);
       toast.success(data.message);
-      if (data.token) {
-        setTimeout(() => {
-          navigate(`/reset-password?token=${data.token}`);
-        }, 1500);
-      }
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to trigger password reset");
     } finally {
@@ -42,7 +36,7 @@ export default function ForgotPassword() {
       <div className="text-center mb-8">
         <h2 className="text-3xl font-extrabold text-white tracking-tight mb-2">Forgot Password</h2>
         <p className="text-sm text-slate-400 font-medium leading-relaxed">
-          Enter your registered email address and we will generate a simulated reset link for you.
+          Enter your registered email address. If an account exists, reset instructions will be sent securely.
         </p>
       </div>
 
@@ -77,7 +71,7 @@ export default function ForgotPassword() {
           ) : (
             <>
               <Send className="h-5 w-5" />
-              <span>Generate Reset Link</span>
+              <span>Send Reset Instructions</span>
             </>
           )}
         </motion.button>

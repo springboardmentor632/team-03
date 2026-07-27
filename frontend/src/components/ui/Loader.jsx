@@ -1,0 +1,1 @@
+export default function Loader({ label = 'Loading' }) { return <div role="status" className="flex items-center gap-2 p-4 text-slate-600"><span className="h-5 w-5 animate-spin rounded-full border-2 border-blue-700 border-t-transparent" />{label}<span className="sr-only">…</span></div>; }

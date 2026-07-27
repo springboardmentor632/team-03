@@ -33,6 +33,7 @@ const schemeSchema = new Schema(
       },
     ],
     createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    versionHistory: [{ version: Number, changedAt: Date, changedBy: { type: Schema.Types.ObjectId, ref: "User" }, summary: String }],
     approvedBy: { type: Schema.Types.ObjectId, ref: "User", default: null },
   },
   {
@@ -45,6 +46,7 @@ schemeSchema.index({ department: 1 });
 schemeSchema.index({ state: 1 });
 schemeSchema.index({ status: 1 });
 schemeSchema.index({ createdAt: -1 });
+schemeSchema.index({ title: "text", description: "text", benefits: "text" });
 
 
 module.exports = mongoose.models.Schemes || mongoose.model("Schemes", schemeSchema);
