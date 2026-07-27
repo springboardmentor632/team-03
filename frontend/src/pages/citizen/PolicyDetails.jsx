@@ -27,7 +27,7 @@ export default function PolicyDetails() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[50vh]">
+      <div className="flex justify-center items-center min-h-[50vh] px-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -35,7 +35,7 @@ export default function PolicyDetails() {
 
   if (error || !policy) {
     return (
-      <div className="max-w-3xl mx-auto py-12 text-center space-y-4">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center space-y-4">
         <div className="bg-red-50 text-red-600 p-4 rounded-xl border border-red-100 font-semibold">
           {error || "Policy details not found"}
         </div>
@@ -48,7 +48,7 @@ export default function PolicyDetails() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <Link to="/policies" className="text-slate-500 hover:text-slate-800 font-semibold text-sm inline-flex items-center gap-1.5 mb-2">
         <ArrowLeft className="h-4 w-4" />
         <span>Back to search</span>

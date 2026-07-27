@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import policyService from "../../services/policy.service";
 import { toast, Toaster } from "react-hot-toast";
-import { Award, Plus, Trash2, Edit2, Archive, Landmark, X, PlusCircle, Activity } from "lucide-react";
+import { Award, Plus, Trash2, Edit2, Archive, Landmark, X, PlusCircle, Activity, ChevronDown } from "lucide-react";
 
 export default function Schemes() {
   const [schemes, setSchemes] = useState([]);
@@ -162,7 +162,16 @@ export default function Schemes() {
     try {
       await policyService.deleteScheme(id);
       setSchemes(schemes.filter((s) => s._id !== id));
-      toast.success("Scheme record deleted");
+      toast.success("Scheme deleted successfully", {
+        style: {
+          background: "#22C55E",
+          color: "white",
+        },
+        iconTheme: {
+          primary: "#ffffff",
+          secondary: "#22C55E",
+        },
+      });
     } catch (e) {
       toast.error("Failed to delete scheme");
     }
@@ -244,14 +253,16 @@ export default function Schemes() {
                         </span>
                       </td>
                       <td className="p-5">
-                        <span className={`text-xxs font-extrabold px-2.5 py-1 rounded-full uppercase ${
+                        <span className={`text-xs font-semibold px-3 py-1.5 rounded-lg uppercase tracking-wide ${
                           item.status === "approved"
-                            ? "bg-emerald-50 text-emerald-600"
+                            ? "bg-blue-50 text-blue-700 border border-blue-200"
                             : item.status === "pending_approval"
-                            ? "bg-orange-50 text-orange-500 animate-pulse"
+                            ? "bg-amber-50 text-amber-700 border border-amber-200"
                             : item.status === "archived"
-                            ? "bg-slate-100 text-slate-400"
-                            : "bg-blue-50 text-blue-600"
+                            ? "bg-slate-100 text-slate-600 border border-slate-200"
+                            : item.status === "revoked"
+                            ? "bg-red-50 text-red-700 border border-red-200"
+                            : "bg-slate-50 text-slate-700 border border-slate-200"
                         }`}>
                           {item.status?.replace("_", " ")}
                         </span>
@@ -333,13 +344,16 @@ export default function Schemes() {
                 </div>
                 <div>
                   <label className="block text-slate-400 mb-1">Category</label>
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold"
-                  >
-                    {categories.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="w-full appearance-none bg-white border border-slate-200 text-slate-900 text-sm font-medium rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 hover:border-slate-300 transition-all duration-200 cursor-pointer [&>option]:bg-white [&>option]:text-slate-900"
+                    >
+                      {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" strokeWidth={2.5} />
+                  </div>
                 </div>
               </div>
 

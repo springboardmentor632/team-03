@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import policyService from "../../services/policy.service";
 import { toast, Toaster } from "react-hot-toast";
-import { FileText, Plus, Trash2, Edit2, CheckCircle2, Archive, Landmark, X } from "lucide-react";
+import { FileText, Plus, Trash2, Edit2, CheckCircle2, Archive, Landmark, X, ChevronDown } from "lucide-react";
 
 export default function Policies() {
   const [policies, setPolicies] = useState([]);
@@ -182,14 +182,16 @@ export default function Policies() {
                         </span>
                       </td>
                       <td className="p-5">
-                        <span className={`text-xxs font-extrabold px-2.5 py-1 rounded-full uppercase ${
+                        <span className={`text-xs font-semibold px-3 py-1.5 rounded-lg uppercase tracking-wide ${
                           item.status === "approved"
-                            ? "bg-emerald-50 text-emerald-600"
+                            ? "bg-blue-50 text-blue-700 border border-blue-200"
                             : item.status === "pending_approval"
-                            ? "bg-orange-50 text-orange-500 animate-pulse"
+                            ? "bg-amber-50 text-amber-700 border border-amber-200"
                             : item.status === "archived"
-                            ? "bg-slate-100 text-slate-400"
-                            : "bg-blue-50 text-blue-600"
+                            ? "bg-slate-100 text-slate-600 border border-slate-200"
+                            : item.status === "revoked"
+                            ? "bg-red-50 text-red-700 border border-red-200"
+                            : "bg-slate-50 text-slate-700 border border-slate-200"
                         }`}>
                           {item.status?.replace("_", " ")}
                         </span>
@@ -275,13 +277,16 @@ export default function Policies() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-slate-400 mb-1">Category</label>
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-bold"
-                  >
-                    {categories.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="w-full appearance-none bg-white border border-slate-200 text-slate-900 text-sm font-medium rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 hover:border-slate-300 transition-all duration-200 cursor-pointer [&>option]:bg-white [&>option]:text-slate-900"
+                    >
+                      {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" strokeWidth={2.5} />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-slate-400 mb-1">Department</label>

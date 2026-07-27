@@ -120,7 +120,7 @@ class EligibilityService {
     const schemes = await eligibilityRepository.getApprovedSchemes();
     const results = schemes.map((scheme) => this.evaluateScheme(profile, scheme));
 
-    eligibilityRepository.saveLog({
+    await eligibilityRepository.saveLog({
       userId,
       profile,
       results: results.map((r) => ({ schemeId: r.schemeId, isEligible: r.isEligible })),

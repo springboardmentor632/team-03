@@ -13,10 +13,10 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="bg-slate-50 text-slate-800 space-y-20 pb-20">
+    <div className="bg-slate-50 text-slate-800">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-slate-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/40 via-slate-950 to-slate-950 text-white py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
+        <div className="page-wrapper text-center space-y-6 relative z-10">
           <span className="inline-flex items-center gap-1.5 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
             <ShieldCheck className="h-4.5 w-4.5" />
             <span>Secure Role-Based Governance Portal</span>
@@ -49,7 +49,7 @@ export default function LandingPage() {
       </section>
 
       {/* Feature Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section className="page-wrapper py-16 space-y-12">
         <div className="text-center space-y-3">
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800">Advanced Platform Capabilities</h2>
           <p className="text-slate-500 text-sm max-w-xl mx-auto">
@@ -92,7 +92,7 @@ export default function LandingPage() {
 
       {/* Role Segments */}
       <section className="bg-slate-100 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="page-wrapper space-y-12">
           <div className="text-center space-y-3">
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800">Unified Portal Access Controls</h2>
             <p className="text-slate-500 text-sm max-w-xl mx-auto">
@@ -162,7 +162,7 @@ export default function LandingPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8">
         <h2 className="text-2xl font-bold text-slate-800 text-center">Frequently Asked Questions</h2>
         <div className="space-y-4">
           <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-2">
@@ -180,5 +180,6 @@ export default function LandingPage() {
         </div>
       </section>
     </div>
+
   );
 }

@@ -3,7 +3,7 @@ import { useLocation, Link } from "react-router-dom";
 import policyService from "../../services/policy.service";
 import userService from "../../services/user.service";
 import { toast, Toaster } from "react-hot-toast";
-import { Search as SearchIcon, Filter, Bookmark, Award, FileText, ArrowLeftRight, ArrowRight } from "lucide-react";
+import { Search as SearchIcon, Filter, Bookmark, Award, FileText, ArrowLeftRight, ArrowRight, ChevronDown } from "lucide-react";
 
 export default function Search() {
   const location = useLocation();
@@ -150,7 +150,7 @@ export default function Search() {
   const states = ["Global", "Bihar", "Uttar Pradesh", "Maharashtra", "Tamil Nadu", "Karnataka", "Delhi"];
 
   return (
-    <div className="space-y-6">
+    <div className="page-wrapper py-8 space-y-6">
       <Toaster position="top-right" />
       {/* Title */}
       <div>
@@ -213,40 +213,49 @@ export default function Search() {
           {/* Category */}
           <div>
             <label className="block text-xs font-bold text-slate-400 mb-1">Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none"
-            >
-              <option value="">All Categories</option>
-              {categories.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
+            <div className="relative">
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full appearance-none bg-white border border-slate-200 text-slate-900 text-sm font-medium rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 hover:border-slate-300 transition-all duration-200 cursor-pointer [&>option]:bg-white [&>option]:text-slate-900"
+              >
+                <option value="">All Categories</option>
+                {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" strokeWidth={2.5} />
+            </div>
           </div>
 
           {/* Department */}
           <div>
             <label className="block text-xs font-bold text-slate-400 mb-1">Department</label>
-            <select
-              value={department}
-              onChange={(e) => setDepartment(e.target.value)}
-              className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none"
-            >
-              <option value="">All Departments</option>
-              {departments.map((d) => <option key={d} value={d}>{d}</option>)}
-            </select>
+            <div className="relative">
+              <select
+                value={department}
+                onChange={(e) => setDepartment(e.target.value)}
+                className="w-full appearance-none bg-white border border-slate-200 text-slate-900 text-sm font-medium rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 hover:border-slate-300 transition-all duration-200 cursor-pointer [&>option]:bg-white [&>option]:text-slate-900"
+              >
+                <option value="">All Departments</option>
+                {departments.map((d) => <option key={d} value={d}>{d}</option>)}
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" strokeWidth={2.5} />
+            </div>
           </div>
 
           {/* State */}
           <div>
             <label className="block text-xs font-bold text-slate-400 mb-1">Residency State</label>
-            <select
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-              className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none"
-            >
-              <option value="">All States / Global</option>
-              {states.map((s) => <option key={s} value={s}>{s}</option>)}
-            </select>
+            <div className="relative">
+              <select
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+                className="w-full appearance-none bg-white border border-slate-200 text-slate-900 text-sm font-medium rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 hover:border-slate-300 transition-all duration-200 cursor-pointer [&>option]:bg-white [&>option]:text-slate-900"
+              >
+                <option value="">All States / Global</option>
+                {states.map((s) => <option key={s} value={s}>{s}</option>)}
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" strokeWidth={2.5} />
+            </div>
           </div>
         </div>
       </div>

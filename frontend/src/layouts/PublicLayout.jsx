@@ -25,54 +25,54 @@ export default function PublicLayout() {
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
       {/* Header */}
-      <header className="sticky top-0 z-40 w-full glass-nav">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-blue-600 font-extrabold text-xl tracking-tight">
+      <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-xl border-b border-slate-200/50">
+        <div className="page-wrapper h-16 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2.5 text-blue-600 font-extrabold text-xl tracking-tight">
             <ShieldCheck className="h-6 w-6 stroke-[2.5]" />
             <span>GovIntel Platform</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 font-medium text-slate-600">
-            <Link to="/policies" className="hover:text-blue-600 transition-colors flex items-center gap-1.5">
+          <nav className="hidden lg:flex items-center gap-10 font-medium text-slate-600">
+            <Link to="/policies" className="hover:text-blue-600 transition-colors flex items-center gap-2">
               <FileText className="h-4 w-4" /> Policies
             </Link>
-            <Link to="/schemes" className="hover:text-blue-600 transition-colors flex items-center gap-1.5">
+            <Link to="/schemes" className="hover:text-blue-600 transition-colors flex items-center gap-2">
               <Award className="h-4 w-4" /> Schemes
             </Link>
-            <Link to="/eligibility" className="hover:text-blue-600 transition-colors flex items-center gap-1.5">
+            <Link to="/eligibility" className="hover:text-blue-600 transition-colors flex items-center gap-2">
               <ShieldCheck className="h-4 w-4" /> Eligibility
             </Link>
-            <Link to="/feedback" className="hover:text-blue-600 transition-colors flex items-center gap-1.5">
+            <Link to="/feedback" className="hover:text-blue-600 transition-colors flex items-center gap-2">
               <HelpCircle className="h-4 w-4" /> Support
             </Link>
           </nav>
 
           {/* Session Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
             {token ? (
               <>
                 <Link
                   to={getDashboardLink()}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg shadow-sm hover:shadow transition-all flex items-center gap-1.5"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all flex items-center gap-2"
                 >
                   <LayoutDashboard className="h-4 w-4" /> Dashboard
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="text-slate-600 hover:text-red-600 font-semibold px-3 py-2 rounded-lg hover:bg-red-50 transition-colors flex items-center gap-1.5"
+                  className="text-slate-600 hover:text-red-600 font-semibold px-4 py-2.5 rounded-lg hover:bg-red-50 transition-colors flex items-center gap-2"
                 >
                   <LogOut className="h-4 w-4" /> Logout
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="text-slate-700 hover:text-blue-600 font-semibold px-3 py-2">
+                <Link to="/login" className="text-slate-700 hover:text-blue-600 font-semibold px-4 py-2.5">
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg shadow-sm hover:shadow transition-all"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all"
                 >
                   Register
                 </Link>
@@ -160,13 +160,13 @@ export default function PublicLayout() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1">
+      <main className="flex-1 overflow-y-auto">
         <Outlet />
       </main>
 
       {/* Footer */}
       <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="page-wrapper grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 text-white font-bold text-lg mb-4">
               <ShieldCheck className="h-5 w-5 text-blue-500" />

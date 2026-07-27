@@ -5,6 +5,7 @@ const authService = {
     const response = await API.post("/auth/login", { email, password });
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
       localStorage.setItem("user", JSON.stringify(response.data.user));
     }
     return response.data;
@@ -14,6 +15,7 @@ const authService = {
     const response = await API.post("/auth/register", userData);
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
       localStorage.setItem("user", JSON.stringify(response.data.user));
     }
     return response.data;
@@ -21,6 +23,7 @@ const authService = {
 
   logout: () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
   },
 

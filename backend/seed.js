@@ -23,13 +23,12 @@ const seedData = async () => {
     await Feedback.deleteMany({});
 
     console.log("Creating default users...");
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash("Password123", salt);
+    const defaultPassword = "Password123";
 
     const admin = await User.create({
       name: "GovIntel Administrator",
       email: "admin@govintel.gov",
-      password: hashedPassword,
+      password: defaultPassword,
       role: "admin",
       profile: {},
     });
@@ -37,7 +36,7 @@ const seedData = async () => {
     const official = await User.create({
       name: "State Official",
       email: "official@govintel.gov",
-      password: hashedPassword,
+      password: defaultPassword,
       role: "official",
       profile: {},
     });
@@ -45,7 +44,7 @@ const seedData = async () => {
     const citizen = await User.create({
       name: "Ramesh Kumar",
       email: "citizen@govintel.gov",
-      password: hashedPassword,
+      password: defaultPassword,
       role: "citizen",
       profile: {
         age: 28,

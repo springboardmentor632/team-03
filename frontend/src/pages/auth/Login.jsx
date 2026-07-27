@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser, clearError } from "../../redux/slices/authSlice";
 import { toast, Toaster } from "react-hot-toast";
-import { Mail, Lock, Eye, EyeOff, LogIn, ArrowRight } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, LogIn, ArrowRight, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Login() {
@@ -56,7 +56,19 @@ export default function Login() {
       className="w-full max-w-[480px] bg-[#0b1329]/50 backdrop-blur-xl border border-white/10 rounded-3xl p-10 sm:p-12 shadow-[0_0_50px_rgba(59,130,246,0.08)]"
     >
       <Toaster position="top-right" />
-      
+
+      {/* Branding */}
+      <div className="flex justify-center mb-5">
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 shadow-[0_0_16px_rgba(59,130,246,0.15)] group-hover:border-blue-500/40 transition-all duration-300">
+            <Shield className="h-4 w-4 text-blue-400" />
+          </div>
+          <span className="text-base font-bold text-white tracking-tight group-hover:text-blue-300 transition-colors">
+            GovIntel Platform
+          </span>
+        </Link>
+      </div>
+
       <div className="text-center mb-8">
         <h2 className="text-3xl font-extrabold text-white tracking-tight mb-2">Sign in to your account</h2>
         <p className="text-sm text-slate-400 font-medium">Welcome back! Please enter your details</p>

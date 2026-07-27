@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import policyService from "../../services/policy.service";
 import { toast, Toaster } from "react-hot-toast";
 import { ShieldCheck, HelpCircle, CheckCircle2, XCircle, ChevronDown, ChevronUp, UserCheck } from "lucide-react";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function Eligibility() {
   const { user } = useSelector((state) => state.auth);
@@ -63,7 +64,9 @@ export default function Eligibility() {
         disability,
       };
 
+      setLoading(true);
       const res = await policyService.checkEligibility(payload);
+      setLoading(false);
       if (res.success) {
         setResults(res.results || []);
         toast.success(`Evaluated schemes. Found matches.`);
@@ -83,17 +86,17 @@ export default function Eligibility() {
   const ineligibleSchemes = results.filter((r) => !r.isEligible);
 
   return (
-    <div className="space-y-8">
+    <div className="page-wrapper py-8 space-y-8">
       <Toaster position="top-right" />
-      <div>
-        <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-          <ShieldCheck className="h-6 w-6 text-blue-600" />
-          <span>Welfare Scheme Eligibility Checker</span>
-        </h1>
-        <p className="text-slate-500 text-sm mt-1">
-          Provide your demographic details below to instantly evaluate matching government welfare schemes.
-        </p>
-      </div>
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+            <ShieldCheck className="h-6 w-6 text-blue-600" />
+            <span>Welfare Scheme Eligibility Checker</span>
+          </h1>
+          <p className="text-slate-500 text-sm mt-1">
+            Provide your demographic details below to instantly evaluate matching government welfare schemes.
+          </p>
+        </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Form panel */}
@@ -217,7 +220,7 @@ export default function Eligibility() {
               disabled={loading}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-sm shadow-md transition-all pt-3 cursor-pointer"
             >
-              {loading ? "Checking rules..." : "Evaluate Eligibility"}
+              {loading ? <LoadingSpinner size={20} color="#fff" /> : "Evaluate Eligibility"}
             </button>
           </form>
         </div>
